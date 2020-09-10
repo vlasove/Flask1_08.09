@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "9a009935-474d-48a7-8345-a2655802a7c7",
+		"name": "SolveAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET /solve",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8080/solve",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"solve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /grab",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"A\" : 0,\r\n    \"B\" : 0,\r\n    \"C\" : 2\r\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8080/grab",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8080",
+					"path": [
+						"grab"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
