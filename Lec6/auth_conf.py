@@ -9,7 +9,7 @@ def authenticate(username, password):
         return user 
 
 
-def identity(payload):
-    uid = payload['identity']
+def identity(data):
+    uid = data['identity']
     # Нужно научиться доставать пользователя из БД по его id +
     return User.search_id(uid)
