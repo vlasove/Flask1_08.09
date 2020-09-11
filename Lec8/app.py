@@ -26,3 +26,6 @@ api.add_resource(UserResource, "/register")
 
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
+
+
+
