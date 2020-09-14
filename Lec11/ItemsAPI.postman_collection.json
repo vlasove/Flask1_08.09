@@ -1,0 +1,248 @@
+{
+	"info": {
+		"_postman_id": "7eb0d5d5-2189-48cc-bfcd-bbd7bafdb34f",
+		"name": "ItemsAPI",
+		"description": "Коллекция для тестирования запросов ItemsAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET /items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/items",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"items"
+					]
+				},
+				"description": "Ресурс Items. Возвращает все товары из БД"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /item/{name}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/item/table",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"item",
+						"table"
+					]
+				},
+				"description": "Возвращает информацию про товар с именем name."
+			},
+			"response": []
+		},
+		{
+			"name": "POST /item/{name}",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT {{jwt_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"price\" : 13.54,\r\n    \"store_id\" : 1\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/item/third",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"item",
+						"third"
+					]
+				},
+				"description": "Добавить новый товар в бд. В json требуется только поле price."
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /item/{name}",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT {{jwt_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/item/table",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"item",
+						"table"
+					]
+				},
+				"description": "Удаляет из бд объект с именем name"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /item/{name}",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "JWT {{jwt_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"price\" : 20.55\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/item/chairsss",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"item",
+						"chairsss"
+					]
+				},
+				"description": "Обновить информацию про объект с именем name"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /auth",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "42bfd51c-61bb-439b-bd86-89278501ed76",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"tests[\"Test for jwt\"] = jsonData.access_token!== undefined;\r",
+							"\r",
+							"pm.environment.set(\"jwt_token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"Alice\", \r\n    \"password\" : \"123456\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/auth",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"auth"
+					]
+				},
+				"description": "Запрос на прохождение аутентификации"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\" : \"Alice\", \r\n    \"password\" : \"123456\"\r\n}"
+				},
+				"url": {
+					"raw": "{{base_url}}/register",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET /stores",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/stores",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"stores"
+					]
+				},
+				"description": "Возвращает набор всех магазинов"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /store/{title}",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/store/newstore",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"store",
+						"newstore"
+					]
+				},
+				"description": "Создать магазин с именем title"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
