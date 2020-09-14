@@ -1,7 +1,11 @@
-import sqlite3
+from db import db 
 
-class ItemModel:
+class ItemModel(db.Model):
     __tablename__ = 'items'
+    # Имена колонок должны совпадать с именами полей определяемыми в конструкторе
+    id = db.Column(db.Integer, primary_key=True) # Вводим новое поле
+    name = db.Column(db.String(50))
+    price =  db.Column(db.Float(precision=2))
 
     def __init__(self, name, price):
         self.name = name 
@@ -12,56 +16,65 @@ class ItemModel:
 
     @classmethod
     def search_name(cls, name):
-        conn = sqlite3.connect('data.db')
-        cur = conn.cursor()
+        # name (слева) - имя колонки, name (справа) - аргумент метода search_name
+        return cls.query.filter_by(name=name).first() # SELECT * FROM items WHERE name=name price=price LIMIT 1" ->
+        # conn = sqlite3.connect('data.db')
+        # cur = conn.cursor()
 
-        select_query = 'SELECT * FROM {} WHERE name=?'.format(cls.__tablename__)
-        row = cur.execute(select_query, (name,)).fetchone()
+        # select_query = 'SELECT * FROM {} WHERE name=?'.format(cls.__tablename__)
+        # row = cur.execute(select_query, (name,)).fetchone()
 
-        conn.close()
-        if row:
-            return  {'name' : row[0], 'price' : row[1]}
+        # conn.close()
+        # if row:
+        #     return  {'name' : row[0], 'price' : row[1]}
 
     @classmethod
     def get_all(cls):
-        conn = sqlite3.connect('data.db')
-        cur = conn.cursor()
+        return cls.query.all() # SELECT * FROM items
+        # conn = sqlite3.connect('data.db')
+        # cur = conn.cursor()
 
-        select_query = "SELECT * FROM {}".format(cls.__tablename__)
-        items = []
-        for line in cur.execute(select_query):
-            items.append({"name" : line[0], "price" : line[1]})
+        # select_query = "SELECT * FROM {}".format(cls.__tablename__)
+        # items = []
+        # for line in cur.execute(select_query):
+        #     items.append({"name" : line[0], "price" : line[1]})
         
-        conn.close()
-        return items 
+        # conn.close()
+        # return items 
 
 
     def insert(self):
-        conn = sqlite3.connect('data.db')
-        cur = conn.cursor()
+        db.session.add(self)
+        db.session.commit()
+        # conn = sqlite3.connect('data.db')
+        # cur = conn.cursor()
 
-        insert_query = "INSERT INTO {} VALUES(?, ?)".format(self.__tablename__)
-        cur.execute(insert_query, (self.name, self.price))
+        # insert_query = "INSERT INTO {} VALUES(?, ?)".format(self.__tablename__)
+        # cur.execute(insert_query, (self.name, self.price))
 
-        conn.commit()
-        conn.close()
+        # conn.commit()
+        # conn.close()
 
     def update(self):
-        conn = sqlite3.connect('data.db')
-        cur = conn.cursor()
+        db.session.add(self)
+        db.session.commit()
+        # conn = sqlite3.connect('data.db')
+        # cur = conn.cursor()
 
-        update_query = "UPDATE {} SET price=? WHERE name=?".format(self.__tablename__)
-        cur.execute(update_query, (self.price, self.name))
+        # update_query = "UPDATE {} SET price=? WHERE name=?".format(self.__tablename__)
+        # cur.execute(update_query, (self.price, self.name))
 
-        conn.commit()
-        conn.close()
+        # conn.commit()
+        # conn.close()
 
     def delete(self):
-        conn = sqlite3.connect('data.db')
-        cur = conn.cursor()
+        db.session.delete(self)
+        db.session.commit()
+        # conn = sqlite3.connect('data.db')
+        # cur = conn.cursor()
 
-        delete_query = "DELETE FROM {} WHERE name=?".format(self.__tablename__)
-        cur.execute(delete_query, (self.name,))
+        # delete_query = "DELETE FROM {} WHERE name=?".format(self.__tablename__)
+        # cur.execute(delete_query, (self.name,))
 
-        conn.commit()
-        conn.close()
+        # conn.commit()
+        # conn.close()

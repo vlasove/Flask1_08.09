@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask_jwt import jwt_required
 from models.item import ItemModel
-import sqlite3
+
 
 
 
@@ -13,7 +13,7 @@ class ItemResource(Resource):
     def get(self, name):
         item = ItemModel.search_name(name)
         if item:
-            return {'item' : item}, 200
+            return item.json(), 200
         return {'Error': "Item with that name not found"}, 404
 
 
@@ -41,11 +41,9 @@ class ItemResource(Resource):
 
     @jwt_required()
     def delete(self, name):
-        if ItemModel.search_name(name):
-            # Тогда его можно удалить
-            item_to_delete = ItemModel(name, None)
-            item_to_delete.delete()
-
+        item = ItemModel.search_name(name)
+        if item:
+            item.delete()
             return {"Message" : "Item deleted"}, 202
 
         return {"Error" : "Item with name {} not found".format(name)}, 404
@@ -55,6 +53,5 @@ class ItemResource(Resource):
 
 class ItemCollectionResource(Resource):
     def get(self):
-        items = ItemModel.get_all()
-        return {'items' : items }, 200
+        return {'items' : list(map(lambda x: x.json(), ItemModel.get_all())) }, 200
  
