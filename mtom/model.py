@@ -1,6 +1,8 @@
 from db import db 
 from flask_sqlalchemy import backref
 
+# flask-migrate 
+
 class User(db.Model):
     __tablename___ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -26,5 +28,5 @@ class Store(db.Model):
     item_id = db.Column(db.Integer, db.ForeignKey("items.id"))
 
 
-    user =  relationship(User, backref=backref("stores", cascade="all, delete-orphan"))
-    item = relationship(Item, backref=backref("stores", cascade="all, delete-orphan"))
+    user =  db.relationship("User", backref=backref("stores", cascade="all, delete-orphan"))
+    item = db.relationship("Item", backref=backref("stores", cascade="all, delete-orphan"))
